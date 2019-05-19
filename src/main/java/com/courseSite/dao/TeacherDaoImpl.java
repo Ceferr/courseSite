@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class TeacherDaoImpl extends BaseDaoImpl<Teacher,Long> implements TeacherDao {
+public class TeacherDaoImpl extends BaseDaoImpl<Teacher> implements TeacherDao {
 
     @Override
     public Teacher getByTeacherID(Long teacherID) {

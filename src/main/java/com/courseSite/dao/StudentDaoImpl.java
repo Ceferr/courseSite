@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository("studentDaoImpl")
-public class StudentDaoImpl extends BaseDaoImpl<Student,Long> implements StudentDao{
+public class StudentDaoImpl extends BaseDaoImpl<Student> implements StudentDao{
 
     @Override
     public Student getByStudentID(Long studentID) {

@@ -3,37 +3,83 @@ package com.courseSite.dao;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
 
-public abstract class BaseDaoImpl<T,PK extends Serializable> implements BaseDao<T,PK>{
+public abstract class BaseDaoImpl<T> implements BaseDao<T>{
 
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private Class<T> clazz;
+    @Resource(name = "sessionFactory")
+    protected SessionFactory sessionFactory;
 
-    private Session getCurrentSession() {
+    public BaseDaoImpl(){
+        super();
+        this.clazz = null;
+        this.clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
+
+    public Session getCurrentSession() {
         return this.sessionFactory.openSession();
     }
 
     @Override
-    public T load(Class<T> clazz,PK id) {
+    public T load(Serializable id) {
         return (T)this.getCurrentSession().load(clazz,id);
     }
 
     @Override
-    public T get(Class<T> clazz,PK id) {
-        return (T)this.getCurrentSession().get(clazz,id);
+    public T get(Serializable id) {
+//        return (T)this.getCurrentSession().get(clazz,id);
+        String className = clazz.getName();
+        String hql = "From "+className+" where id = :id";
+        Map map = new HashMap();
+        map.put("id",id);
+        Query query = getQuery(hql,map);
+        T t = (T) query.uniqueResult();
+        return t;
     }
 
     @Override
+    public T get(String storePath) {
+        String className = clazz.getName();
+        String hql = "From "+className+" where path = :path";
+        Map map = new HashMap();
+        map.put("path",storePath);
+        Query query = getQuery(hql,map);
+        T t = (T) query.uniqueResult();
+        return t;
+    }
+
+    @Override
+    public List get(Long ID, String IDtype) {
+        String className = clazz.getName();
+//        Field classField = null;
+//        try {
+//            classField = clazz.getField(IDtype);
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        }
+        String hql = "From "+className+" where "+IDtype+" = :"+IDtype;
+        Map map = new HashMap();
+        map.put(IDtype,ID);
+        Query query = getQuery(hql,map);
+        List lists = query.list();
+        return lists;
+    }
+
+    /*
+    * 查询所有记录
+    * */
+    @Override
     public List<T> findAll() {
-        return null;
+        String tableName = DaoUtil.getTableName(clazz);
+        String hql = "From "+tableName;
+        Query query = this.getCurrentSession().createQuery(hql);
+        return query.list();
     }
 
     @Override
@@ -42,8 +88,13 @@ public abstract class BaseDaoImpl<T,PK extends Serializable> implements BaseDao<
     }
 
     @Override
-    public PK save(T entity) {
-        return (PK)this.getCurrentSession().save(entity);
+    public Serializable save(T entity) {
+        return this.getCurrentSession().save(entity);
+    }
+
+    @Override
+    public T merge(T entity) {
+        return (T) this.getCurrentSession().merge(entity);
     }
 
     @Override
@@ -59,6 +110,43 @@ public abstract class BaseDaoImpl<T,PK extends Serializable> implements BaseDao<
     @Override
     public void delete(T entity) {
         this.getCurrentSession().delete(entity);
+    }
+
+    @Override
+    public void delete(final Serializable id) {
+        String className = clazz.getName();
+        if (className != null && className != "") {
+            String hql = "delete "+className+" where id = :id";
+            Map map = new HashMap();
+            map.put("id",id);
+            Query query = getQuery(hql,map);
+            query.executeUpdate();
+        }
+    }
+
+    @Override
+    public void delete(String storePath) {
+        //String tableName = DaoUtil.getTableName(clazz);
+        String className = clazz.getName();
+        if (className != null && className != "") {
+            String hql = "delete "+className+" where path = :path";
+            Map map = new HashMap();
+            map.put("path",storePath);
+            Query query = getQuery(hql,map);
+            query.executeUpdate();
+        }
+    }
+
+    @Override
+    public void delete(Long studentID) {
+        String className = clazz.getName();
+        if (className != null && className != "") {
+            String hql = "delete "+className+" where studentID = :studentID";
+            Map map = new HashMap();
+            map.put("studentID",studentID);
+            Query query = getQuery(hql,map);
+            query.executeUpdate();
+        }
     }
 
     @Override
@@ -86,4 +174,16 @@ public abstract class BaseDaoImpl<T,PK extends Serializable> implements BaseDao<
     public void flush() {
         getCurrentSession().flush();
     }
+
+//    public String getTableName(){
+//        Annotation[] annotations = clazz.getAnnotations();
+//        String tableName = "";
+//        for (Annotation annotation : annotations) {
+//            if (annotation instanceof Table) {
+//                tableName = ((Table) annotation).name();
+//            }
+//        }
+//        tableName = tableName.substring(0, 1).toUpperCase() + tableName.substring(1);
+//        return tableName;
+//    }
 }

@@ -1,5 +1,7 @@
 package com.courseSite.pojo;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +23,9 @@ public class Student {
     @Column(name = "sex")
     private String sex;
 
+//    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    @JoinColumn(name = "teacherID")
+//    private Teacher teacher;
     @Column(name = "teacherID")
     private Long teacherID;
 
@@ -65,13 +70,23 @@ public class Student {
         this.sex = sex;
     }
 
-    public Long getTeacherID() {
+//    public Teacher getTeacher() {
+//        return teacher;
+//    }
+//
+//    public void setTeacher(Teacher teacher) {
+//        this.teacher = teacher;
+//    }
+
+
+        public Long getTeacherID() {
         return teacherID;
     }
 
     public void setTeacherID(Long teacherID) {
         this.teacherID = teacherID;
     }
+
 
     public Student(Long studentID, String name, String password, String sex, Long teacherID) {
         this.studentID = studentID;
@@ -81,7 +96,8 @@ public class Student {
         this.teacherID = teacherID;
     }
 
-    public Student(){};
+    public Student() {
+    }
 
     @Override
     public String toString() {

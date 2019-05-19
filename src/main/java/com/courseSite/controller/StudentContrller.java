@@ -2,15 +2,13 @@ package com.courseSite.controller;
 
 
 import com.courseSite.ResponseResult.Result;
-import com.courseSite.pojo.Student;
 import com.courseSite.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/student")
@@ -19,10 +17,14 @@ public class StudentContrller {
     @Autowired
     private StudentService studentServiceImpl;
 
-    @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT},consumes="application/json;charset=UTF-8")
+    @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
     @ResponseBody
-    public Result addStudent(@RequestBody Student student){
-        Result result = studentServiceImpl.addStudent(student);
+    public Result addStudent(@RequestParam(value = "studentID") Long studentID,
+                             @RequestParam(value = "name")String name,
+                             @RequestParam(value = "password")String password,
+                             @RequestParam(value = "sex")String sex,
+                             @RequestParam(value = "teacherID")Long teacherID){
+        Result result = studentServiceImpl.addStudent(studentID,name,password,sex,teacherID);
         return result;
     }
 
@@ -35,7 +37,7 @@ public class StudentContrller {
 
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
-    public  Result deleteStudent(@RequestParam(value = "studentID",defaultValue = "0") Long studentID){
+    public  Result deleteStudent(@RequestParam(value = "studentID") Long studentID){
         Result result = studentServiceImpl.deleteByStudentID(studentID);
         return result;
     }

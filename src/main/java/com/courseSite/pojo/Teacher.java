@@ -1,6 +1,8 @@
 package com.courseSite.pojo;
 
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "teacher")
@@ -18,6 +20,19 @@ public class Teacher {
     private String intro;
     @Column(name = "sex")
     private String sex;
+
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    @JoinColumn(name = "teacherID")
+//    private List<Student> students;
+
+
+//    public List<Student> getStudents() {
+//        return students;
+//    }
+//
+//    public void setStudents(List<Student> students) {
+//        this.students = students;
+//    }
 
     public Long getId() {
         return id;
@@ -65,5 +80,17 @@ public class Teacher {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", teacherID=" + teacherID +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", intro='" + intro + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
     }
 }

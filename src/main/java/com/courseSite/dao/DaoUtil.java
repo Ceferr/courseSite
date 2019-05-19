@@ -27,14 +27,14 @@ public class DaoUtil {
      * @return 类对应的表名 
      */  
     public static String getTableName(final Object object) {  
-        Annotation[] annotations = object.getClass().getAnnotations();  
-        String tableName = "";  
-        for (Annotation annotation : annotations) {  
-            if (annotation instanceof Table) {  
-                tableName = ((Table) annotation).name();  
-            }  
-        }  
-        return tableName;  
+        //Annotation[] annotations = object.getClass().getAnnotations();
+//        String tableName = "";
+//        for (Annotation annotation : annotations) {
+//            if (annotation instanceof Table) {
+//                tableName = ((Table) annotation).name();
+//            }
+//        }
+        return getTableName(object.getClass());
     }  
   
     /** 
@@ -49,7 +49,8 @@ public class DaoUtil {
             if (annotation instanceof Table) {  
                 tableName = ((Table) annotation).name();  
             }  
-        }  
+        }
+        tableName = tableName.substring(0, 1).toUpperCase() + tableName.substring(1);
         return tableName;  
     }  
   

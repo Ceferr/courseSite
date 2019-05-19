@@ -2,6 +2,6 @@ package com.courseSite.dao;
 
 import com.courseSite.pojo.Admin;
 
-public interface AdminDao extends BaseDao<Admin,Long> {
+interface AdminDao extends BaseDao<Admin> {
 
 }
