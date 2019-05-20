@@ -9,7 +9,7 @@ public interface PublishService {
 
     Result uploadPublish(MultipartFile[] files, String path, String type, Long fileID, Long teacherID);
 
-    Result downloadPublish(String filename, String path, OutputStream outputStream,String type);
+    Result downloadPublish(String filename, String path, OutputStream outputStream,String type,Long studentID);
 
     Result rmPublish(String filename,String path,String type);
 }

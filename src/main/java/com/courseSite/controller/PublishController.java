@@ -38,12 +38,13 @@ public class PublishController {
     public Result download(@RequestParam(value = "filename")String filename,
                            @RequestParam(value = "dirname") String dirname,
                            @RequestParam(value = "type") String type,
+                           @RequestParam(value = "studentID")Long studentID,
                            HttpServletRequest request,HttpServletResponse response) throws IOException {
         OutputStream outputStream = response.getOutputStream();
         response.setContentType("application/form-data");
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + filename);
-        Result result = publishServiceImpl.downloadPublish(filename,dirname,outputStream,type);
+        Result result = publishServiceImpl.downloadPublish(filename,dirname,outputStream,type,studentID);
         return result;
     }
 

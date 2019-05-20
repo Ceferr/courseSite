@@ -31,7 +31,7 @@ public class Result<T> {
 
     public void setOK(String message,T data){
         this.message = message;
-        this.code = 1;
+        this.code = 200;
         this.data = data;
     }
 

@@ -6,4 +6,6 @@ public interface StudentDao extends BaseDao<Student>{
     Student getByStudentID(Long studentID);
 
     void deleteByStudentID(Long studentID);
+
+    void updatePassword(Long studentID,String password);
 }

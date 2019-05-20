@@ -16,18 +16,18 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
 
     @Autowired
     private HomeWorkDao homeWorkDaoImpl;
-
     @Autowired
     private ReportDao reportDaoImpl;
-
     @Autowired
     private HomeWork_publishDao homeWork_publishDaoImpl;
-
     @Autowired
     private Report_publishDao report_publishDaoImpl;
-
     @Autowired
     private StudentDao studentDaoImpl;
+    @Autowired
+    private HomeWork_uploadDao homeWork_uploadDaoImpl;
+    @Autowired
+    private Report_uploadDao report_uploadDaoImpl;
 
     private Result result = new Result();
 
@@ -56,6 +56,8 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
                         }else {
                             HomeWork homeWork = new HomeWork(name,storePath,fileID,studentID);
                             homeWorkDaoImpl.save(homeWork);
+                            HomeWork_upload homeWork_upload = new HomeWork_upload(storePath,studentID);
+                            homeWork_uploadDaoImpl.save(homeWork_upload);
                             file.transferTo(new File(storePath));
                             result.setOK("上传成功",homeWork);
                         }
@@ -67,8 +69,10 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
                         }else {
                             Report report = new Report(name,storePath,fileID,studentID);
                             reportDaoImpl.save(report);
-                            result.setOK("上传成功",report);
+                            Report_upload report_upload = new Report_upload(storePath,studentID);
+                            report_uploadDaoImpl.save(report_upload);
                             file.transferTo(new File(storePath));
+                            result.setOK("上传成功",report);
                         }
                     }
                 }
@@ -112,26 +116,6 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
         }
         return result;
     }
-
-//    @Override
-//    public Result upload(MultipartFile[] files, String dirname) {
-//        result.clear();
-//        try {
-//            for (MultipartFile file:files){
-//                //System.out.println(file.getOriginalFilename());
-//                String name = file.getOriginalFilename();
-//                String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-//                String url = Constant.HOMEWORK_ROOT;
-//                File dir = new File(url+dirname);
-//                if (!dir.exists()) dir.mkdirs();
-//                file.transferTo(new File(url+dirname+"/"+name));
-//                result.setOK("上传成功",url+dirname+"/"+name);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
 
     @Override
     public Result download(String filename, String path,OutputStream outputStream) {

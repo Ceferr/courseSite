@@ -7,17 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/student")
-public class StudentContrller {
+public class StudentController {
 
     @Autowired
     private StudentService studentServiceImpl;
 
-    @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public Result addStudent(@RequestParam(value = "studentID") Long studentID,
                              @RequestParam(value = "name")String name,
@@ -35,10 +33,34 @@ public class StudentContrller {
         return result;
     }
 
+    @RequestMapping(method = RequestMethod.GET,value = "/getAllStudent")
+    @ResponseBody
+    public Result getAllStudent(){
+        Result result = studentServiceImpl.getAllStudent();
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,value = "/getAllStudentByPage")
+    @ResponseBody
+    public Result getAllStudentByPage(@RequestParam(value = "start") Integer start,
+                                      @RequestParam(value = "size")Integer size){
+        Result result = studentServiceImpl.getAllStudentByPage(start,size);
+        return result;
+    }
+
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
     public  Result deleteStudent(@RequestParam(value = "studentID") Long studentID){
         Result result = studentServiceImpl.deleteByStudentID(studentID);
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/updatePassword")
+    @ResponseBody
+    public Result updatePassword(@RequestParam(value = "studentID")Long studentID,
+                                 @RequestParam(value = "originalPassword")String originalPassword,
+                                 @RequestParam(value = "password")String password){
+        Result result = studentServiceImpl.updatePassword(studentID, originalPassword, password);
         return result;
     }
 }

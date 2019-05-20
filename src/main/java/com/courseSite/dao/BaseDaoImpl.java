@@ -55,14 +55,8 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T>{
     }
 
     @Override
-    public List get(Long ID, String IDtype) {
+    public List<T> get(Object ID, String IDtype) {
         String className = clazz.getName();
-//        Field classField = null;
-//        try {
-//            classField = clazz.getField(IDtype);
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        }
         String hql = "From "+className+" where "+IDtype+" = :"+IDtype;
         Map map = new HashMap();
         map.put(IDtype,ID);
@@ -76,9 +70,18 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T>{
     * */
     @Override
     public List<T> findAll() {
-        String tableName = DaoUtil.getTableName(clazz);
-        String hql = "From "+tableName;
+        String className = clazz.getName();
+        String hql = "From "+className;
         Query query = this.getCurrentSession().createQuery(hql);
+        return query.list();
+    }
+
+    @Override
+    public List<T> findAllByPage(Integer start, Integer size) {
+        String className = clazz.getName();
+        String hql = "From "+className;
+        Query query = this.getCurrentSession().createQuery(hql);
+        query.setFirstResult(start).setMaxResults(size);
         return query.list();
     }
 

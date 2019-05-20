@@ -11,4 +11,10 @@ public interface StudentService {
     Result getByStudentID(Long studentID);
 
     Result deleteByStudentID(Long studentID);
+
+    Result getAllStudent();
+
+    Result getAllStudentByPage(Integer start,Integer size);
+
+    Result updatePassword(Long studentID,String originalPassword,String password);
 }

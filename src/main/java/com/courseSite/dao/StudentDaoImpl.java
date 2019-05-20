@@ -29,4 +29,14 @@ public class StudentDaoImpl extends BaseDaoImpl<Student> implements StudentDao{
         Query query = getQuery(hql,map);
         query.executeUpdate();
     }
+
+    @Override
+    public void updatePassword(Long studentID, String password) {
+        String hql="update Student s set s.password=:password where s.studentID=:studentID";
+        Map map = new HashMap();
+        map.put("password",password);
+        map.put("studentID",studentID);
+        Query query = getQuery(hql,map);
+        query.executeUpdate();
+    }
 }

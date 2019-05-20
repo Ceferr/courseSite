@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 @Controller
-@RequestMapping(value = "/homeworkorreport")
+@RequestMapping(value = "/homeWorkOrReport")
 public class HomeWorkorReportController {
 
     @Autowired

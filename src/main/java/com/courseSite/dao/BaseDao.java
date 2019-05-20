@@ -17,9 +17,11 @@ public interface BaseDao <T>{
 
     T get(String storePath);
 
-    List get(Long ID,String IDtype);
+    List get(Object ID,String IDtype);
 
     List<T> findAll();
+
+    List<T> findAllByPage(Integer start,Integer size);
 
     void persist(T entity);
 
