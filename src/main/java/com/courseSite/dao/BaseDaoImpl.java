@@ -65,6 +65,15 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T>{
         return lists;
     }
 
+    @Override
+    public Long getCount() {
+        String className = clazz.getName();
+        String hql = "select count(*) From "+className;
+        Query query = this.getCurrentSession().createQuery(hql);
+        Long count = (Long) query.uniqueResult();
+        return count;
+    }
+
     /*
     * 查询所有记录
     * */

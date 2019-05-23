@@ -11,10 +11,10 @@ import java.util.Map;
 @Repository("CourseWareDaoImpl")
 public class CourseWareDaoImpl extends BaseDaoImpl<CourseWare> implements CourseWareDao {
     @Override
-    public CourseWare getByCoureseWareID(Long coureseWareID) {
-        String hql = "From CourseWare where coureseWareID = :courseWareID";
+    public CourseWare getByCourseWareID(Long courseWareID) {
+        String hql = "From CourseWare where courseWareID = :courseWareID";
         Map map = new HashMap();
-        map.put("CourseWareID",coureseWareID);
+        map.put("courseWareID",courseWareID);
         Query query = getQuery(hql,map);
         CourseWare courseWare = (CourseWare) query.uniqueResult();
         return courseWare;

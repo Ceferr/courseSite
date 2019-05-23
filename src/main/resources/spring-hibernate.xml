@@ -24,11 +24,11 @@
 		<!-- 每60秒检查所有连接池中的空闲连接。默认值: 0，不检查 -->
 		<property name="idleConnectionTestPeriod" value="30" />
 		<!-- 连接数据库连接池最大空闲时间 -->
-		<property name="maxIdleTime" value="1800" />
+		<property name="maxIdleTime" value="30" />
 		<!-- 连接池初始化连接数 -->
-		<property name="initialPoolSize" value="10" />
-		<property name="minPoolSize" value="10" />
-		<property name="maxPoolSize" value="30" />
+		<property name="initialPoolSize" value="5" />
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="5000" />
 		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。默认值: 3 -->
 		<property name="acquireIncrement" value="5" />
 		<!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效

@@ -5,7 +5,7 @@ import com.courseSite.pojo.CourseWare;
 import java.io.Serializable;
 
 public interface CourseWareDao extends BaseDao<CourseWare> {
-    CourseWare getByCoureseWareID(Long courseWareID);
+    CourseWare getByCourseWareID(Long courseWareID);
 
     CourseWare getByStorePath(String storePath);
 

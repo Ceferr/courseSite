@@ -73,7 +73,8 @@ public class StudentServiceImpl implements StudentService {
     public Result getAllStudent() {
         result.clear();
         List<Student> students = studentDaoImpl.findAll();
-        result.setOK("查询成功",students);
+        Long count = studentDaoImpl.getCount();
+        result.setOK(count.toString(),students);
         return result;
     }
 
@@ -81,7 +82,8 @@ public class StudentServiceImpl implements StudentService {
     public Result getAllStudentByPage(Integer start, Integer size) {
         result.clear();
         List<Student> students = studentDaoImpl.findAllByPage(start,size);
-        result.setOK("查询成功",students);
+        Long count = studentDaoImpl.getCount();
+        result.setOK(count.toString(),students);
         return result;
     }
 

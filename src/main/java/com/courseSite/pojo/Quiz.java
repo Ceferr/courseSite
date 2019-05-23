@@ -9,6 +9,8 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "title")
+    private String title;
     @Column(name = "optionA")
     private String optionA;
     @Column(name = "optionB")
@@ -26,6 +28,14 @@ public class Quiz {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getOptionA() {
@@ -68,7 +78,8 @@ public class Quiz {
         this.answer = answer;
     }
 
-    public Quiz(String optionA, String optionB, String optionC, String optionD, String answer) {
+    public Quiz(String title, String optionA, String optionB, String optionC, String optionD, String answer) {
+        this.title = title;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
@@ -83,6 +94,7 @@ public class Quiz {
     public String toString() {
         return "Quiz{" +
                 "id=" + id +
+                ", title='" + title + '\'' +
                 ", optionA='" + optionA + '\'' +
                 ", optionB='" + optionB + '\'' +
                 ", optionC='" + optionC + '\'' +

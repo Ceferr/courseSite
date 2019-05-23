@@ -23,4 +23,12 @@ public class QuizServiceImpl implements QuizService {
         result.setOK("查询成功",quizzes);
         return result;
     }
+
+    @Override
+    public Result getAllQuizByPage(Integer start, Integer size) {
+        result.clear();
+        List<Quiz> quizzes = quizDaoImpl.findAllByPage(start,size);
+        result.setOK("查询成功",quizzes);
+        return result;
+    }
 }

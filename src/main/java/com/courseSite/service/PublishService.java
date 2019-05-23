@@ -7,9 +7,13 @@ import java.io.OutputStream;
 
 public interface PublishService {
 
-    Result uploadPublish(MultipartFile[] files, String path, String type, Long fileID, Long teacherID);
+    Result uploadPublish(MultipartFile[] files, String type, Long fileID, Long teacherID);
 
-    Result downloadPublish(String filename, String path, OutputStream outputStream,String type,Long studentID);
+    Result downloadPublish(Long fileID, String filename,OutputStream outputStream,String type,Long studentID);
 
-    Result rmPublish(String filename,String path,String type);
+    Result rmPublish(Long fileID,String filename,String type,Long teacherID);
+
+    Result getAllPublishByPage(String type,Integer start, Integer size);
+
+    Result makeDir(String type,Integer num,Long teacherID);
 }

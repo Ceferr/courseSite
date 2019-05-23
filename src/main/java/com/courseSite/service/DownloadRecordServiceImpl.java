@@ -38,8 +38,11 @@ public class DownloadRecordServiceImpl implements DownloadRecordService{
         }else {
             switch (type){
                 case "homework":{
+                    System.out.println("开始查询");
                     List<HomeWork_publish_download> lists = homeWork_publish_downloadDaoImpl.get(studentID,"studentID");
+                    System.out.println("查询结果为"+lists.get(0).getPath());
                     for (HomeWork_publish_download record : lists){
+                        System.out.println(record.getPath());
                         records.add(record.getPath());
                     }
                     break;
@@ -58,8 +61,8 @@ public class DownloadRecordServiceImpl implements DownloadRecordService{
                     }
                     break;
                 }
-
             }
+            System.out.println(2);
             result.setOK("查询成功",records);
         }
         return result;

@@ -23,20 +23,19 @@ public class PublishController {
     @RequestMapping(method = RequestMethod.POST,value = "/upload")
     @ResponseBody
     public Result upload(@RequestParam(value = "files") MultipartFile[] files,
-                         @RequestParam(value = "path") String path,
                          @RequestParam(value = "type") String type,
                          @RequestParam(value = "fileID") Long fileID,
                          @RequestParam(value = "teacherID") Long teacherID,
                          HttpServletRequest request, HttpServletResponse response){
-        Result result = publishServiceImpl.uploadPublish(files,path,type,fileID,teacherID);
+        Result result = publishServiceImpl.uploadPublish(files,type,fileID,teacherID);
         return result;
     }
 
     //下载作业或实践报告说明书
     @RequestMapping(method = RequestMethod.POST,value = "/download")
     @ResponseBody
-    public Result download(@RequestParam(value = "filename")String filename,
-                           @RequestParam(value = "dirname") String dirname,
+    public Result download(@RequestParam(value = "fileID")Long fileID,
+                           @RequestParam(value = "filename") String filename,
                            @RequestParam(value = "type") String type,
                            @RequestParam(value = "studentID")Long studentID,
                            HttpServletRequest request,HttpServletResponse response) throws IOException {
@@ -44,17 +43,38 @@ public class PublishController {
         response.setContentType("application/form-data");
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + filename);
-        Result result = publishServiceImpl.downloadPublish(filename,dirname,outputStream,type,studentID);
+        Result result = publishServiceImpl.downloadPublish(fileID,filename,outputStream,type,studentID);
         return result;
     }
 
     //删除作业或实践报告说明
     @RequestMapping(method = RequestMethod.POST,value = "/rmPublish")
     @ResponseBody
-    public Result rmPublish(@RequestParam(value = "filename") String filename,
-                            @RequestParam(value = "path")String path,
-                            @RequestParam(value = "type")String type){
-        Result result = publishServiceImpl.rmPublish(filename,path,type);
+    public Result rmPublish(@RequestParam(value = "fileID") Long fileID,
+                            @RequestParam(value = "filename") String filename,
+                            @RequestParam(value = "type")String type,
+                            @RequestParam(value = "teacherID")Long teacherID){
+        Result result = publishServiceImpl.rmPublish(fileID,filename,type,teacherID);
+        return result;
+    }
+
+    //分页查询作业或实践报告说明或课件
+    @RequestMapping(method = RequestMethod.GET,value = "/getPublishByPage")
+    @ResponseBody
+    public Result getPublishByPage(@RequestParam(value = "type") String type,
+                                   @RequestParam(value = "start")Integer start,
+                                   @RequestParam(value = "size")Integer size){
+        Result result = publishServiceImpl.getAllPublishByPage(type, start, size);
+        return result;
+    }
+
+    //创建文件夹
+    @RequestMapping(method = RequestMethod.POST,value = "/makeDir")
+    @ResponseBody
+    public Result makedir(@RequestParam(value = "type")String type,
+                          @RequestParam(value = "num")Integer num,
+                          @RequestParam(value = "teacherID")Long teacherID){
+        Result result = publishServiceImpl.makeDir(type,num,teacherID);
         return result;
     }
 }

@@ -25,6 +25,8 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
     @Autowired
     private StudentDao studentDaoImpl;
     @Autowired
+    private TeacherDao teacherDaoImpl;
+    @Autowired
     private HomeWork_uploadDao homeWork_uploadDaoImpl;
     @Autowired
     private Report_uploadDao report_uploadDaoImpl;
@@ -32,26 +34,27 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
     private Result result = new Result();
 
     @Override
-    public Result uploadHomeWorkorReport(MultipartFile[] files,String path,String type,Long fileID,Long studentID) {
+    public Result uploadHomeWorkorReport(MultipartFile[] files,String type,Long fileID,Long studentID) {
         result.clear();
         try {
             for (MultipartFile file:files){
                 String name = file.getOriginalFilename();
+                //Teacher teacher = teacherDaoImpl.getByTeacherID(studentDaoImpl.getByStudentID(studentID).getTeacherID());
+                String path = Constant.ROOT+studentDaoImpl.getByStudentID(studentID).getTeacherID()+"/"+type+"/"+"第"+fileID+"次";
                 File dir = new File(path);
                 String storePath = path+"/"+name;
                 Student student = studentDaoImpl.getByStudentID(studentID);
                 if (!dir.exists()){
-                    result.setFail(400,"文件夹不存在");
+                    result.setFail(111,"文件夹不存在");
                     return result;
                 }else if (student == null){
                     result.setFail(400,"该学生不存在");
                     return result;
                 }else {
-
                     if (type.equals("homework")){
                         HomeWork_publish homeWork_publish = homeWork_publishDaoImpl.getByHomeWorkID(fileID);
                         if (homeWork_publish == null) {
-                            result.setFail(400,"该作业未发布");
+                            result.setFail(115,"该作业未发布");
                             return result;
                         }else {
                             HomeWork homeWork = new HomeWork(name,storePath,fileID,studentID);
@@ -64,7 +67,7 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
                     }else if (type.equals("report")){
                         Report_publish report_publish = report_publishDaoImpl.getByReportID(fileID);
                         if (report_publish == null) {
-                            result.setFail(400,"该实践报告未发布");
+                            result.setFail(115,"该实践报告未发布");
                             return result;
                         }else {
                             Report report = new Report(name,storePath,fileID,studentID);
@@ -83,19 +86,6 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
         return result;
     }
 
-    @Override
-    public Result makedir(String dirname) {
-        result.clear();
-        String root = Constant.HOMEWORK_ROOT;
-        File dir = new File(root+dirname);
-        if(!dir.exists()){
-            dir.mkdir();
-            result.setOK("创建成功",dir);
-        }else {
-            result.setFail(400,"文件已存在");
-        }
-        return result;
-    }
 
     @Override
     public Result removefile(String filename,String path,String type) {
@@ -118,8 +108,9 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
     }
 
     @Override
-    public Result download(String filename, String path,OutputStream outputStream) {
+    public Result download(Long fileID,String filename, String type,Long teacherID,OutputStream outputStream) {
         result.clear();
+        String path = Constant.ROOT+teacherID+"/"+type+"/"+"第"+fileID+"次";
         result = Util.download(filename,path,outputStream);
         System.out.println(result.getMessage());
         return result;

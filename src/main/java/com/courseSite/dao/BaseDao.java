@@ -19,6 +19,8 @@ public interface BaseDao <T>{
 
     List get(Object ID,String IDtype);
 
+    Long getCount();
+
     List<T> findAll();
 
     List<T> findAllByPage(Integer start,Integer size);
