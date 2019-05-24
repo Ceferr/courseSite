@@ -46,4 +46,5 @@ public class Result<T> {
         this.code = 0;
         this.data = null;
     }
+
 }

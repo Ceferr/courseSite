@@ -6,6 +6,7 @@ import com.courseSite.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -23,6 +24,13 @@ public class StudentController {
                              @RequestParam(value = "sex")String sex,
                              @RequestParam(value = "teacherID")Long teacherID){
         Result result = studentServiceImpl.addStudent(studentID,name,password,sex,teacherID);
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/importStudent")
+    @ResponseBody
+    public Result importStudent(@RequestParam(value = "file")MultipartFile file){
+        Result result = studentServiceImpl.importFromExcel(file);
         return result;
     }
 
@@ -61,6 +69,15 @@ public class StudentController {
                                  @RequestParam(value = "originalPassword")String originalPassword,
                                  @RequestParam(value = "password")String password){
         Result result = studentServiceImpl.updatePassword(studentID, originalPassword, password);
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/updateInfo")
+    @ResponseBody
+    public Result updateInfo(@RequestParam(value = "studentID")Long studentID,
+                                 @RequestParam(value = "name")String name,
+                                 @RequestParam(value = "sex")String sex){
+        Result result = studentServiceImpl.updateInfo(studentID,name,sex);
         return result;
     }
 }

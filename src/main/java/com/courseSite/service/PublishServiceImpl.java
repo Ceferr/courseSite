@@ -238,19 +238,19 @@ public class PublishServiceImpl implements PublishService {
         Long count = 0l;
         List lists = new ArrayList();
         if (type.equals("homework")){
-            List<HomeWork_publish> homeWork_publishes = homeWork_publishDaoImpl.findAllByPage(start,size);
+            List<HomeWork_publish> homeWork_publishes = homeWork_publishDaoImpl.findAllByPage("homeWorkID",start,size);
             for (HomeWork_publish homeWork_publish : homeWork_publishes){
                 lists.add(homeWork_publish);
             }
             count = homeWork_publishDaoImpl.getCount();
         }else if (type.equals("report")){
-            List<Report_publish> report_publishes = report_publishDaoImpl.findAllByPage(start,size);
+            List<Report_publish> report_publishes = report_publishDaoImpl.findAllByPage("reportID",start,size);
             for (Report_publish report_publish : report_publishes){
                 lists.add(report_publish);
             }
             count = report_publishDaoImpl.getCount();
         }else if (type.equals("courseware")){
-            List<CourseWare> courseWares = courseWareDaoImpl.findAllByPage(start,size);
+            List<CourseWare> courseWares = courseWareDaoImpl.findAllByPage("courseWareID",start,size);
             for (CourseWare courseWare : courseWares){
                 lists.add(courseWare);
             }

@@ -39,4 +39,15 @@ public class StudentDaoImpl extends BaseDaoImpl<Student> implements StudentDao{
         Query query = getQuery(hql,map);
         query.executeUpdate();
     }
+
+    @Override
+    public void updateInfo(Long studentID, String name, String sex) {
+        String hql="update Student s set s.name=:name, s.sex =:sex where s.studentID=:studentID";
+        Map map = new HashMap();
+        map.put("name",name);
+        map.put("sex",sex);
+        map.put("studentID",studentID);
+        Query query = getQuery(hql,map);
+        query.executeUpdate();
+    }
 }

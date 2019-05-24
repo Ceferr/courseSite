@@ -62,7 +62,6 @@ public class DownloadRecordServiceImpl implements DownloadRecordService{
                     break;
                 }
             }
-            System.out.println(2);
             result.setOK("查询成功",records);
         }
         return result;

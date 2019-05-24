@@ -8,4 +8,6 @@ public interface StudentDao extends BaseDao<Student>{
     void deleteByStudentID(Long studentID);
 
     void updatePassword(Long studentID,String password);
+
+    void updateInfo(Long studentID,String name,String sex);
 }

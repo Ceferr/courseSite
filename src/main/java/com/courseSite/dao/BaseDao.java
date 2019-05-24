@@ -19,11 +19,13 @@ public interface BaseDao <T>{
 
     List get(Object ID,String IDtype);
 
+    T getOne(Object ID,String IDtype);
+
     Long getCount();
 
-    List<T> findAll();
+    List<T> findAll(String IDtype);
 
-    List<T> findAllByPage(Integer start,Integer size);
+    List<T> findAllByPage(String IDtype,Integer start,Integer size);
 
     void persist(T entity);
 
@@ -41,7 +43,7 @@ public interface BaseDao <T>{
 
     void delete(String storePath);
 
-    void delete(Long studentID);
+    void deleteRecord(Long studentID);
 
     void flush();
 

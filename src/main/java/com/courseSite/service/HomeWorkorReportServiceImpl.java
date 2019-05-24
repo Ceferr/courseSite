@@ -25,8 +25,6 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
     @Autowired
     private StudentDao studentDaoImpl;
     @Autowired
-    private TeacherDao teacherDaoImpl;
-    @Autowired
     private HomeWork_uploadDao homeWork_uploadDaoImpl;
     @Autowired
     private Report_uploadDao report_uploadDaoImpl;

@@ -66,6 +66,17 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T>{
     }
 
     @Override
+    public T getOne(Object ID, String IDtype) {
+        String className = clazz.getName();
+        String hql = "From "+className+" where "+IDtype+" = :"+IDtype;
+        Map map = new HashMap();
+        map.put(IDtype,ID);
+        Query query = getQuery(hql,map);
+        T t = (T)query.uniqueResult();
+        return t;
+    }
+
+    @Override
     public Long getCount() {
         String className = clazz.getName();
         String hql = "select count(*) From "+className;
@@ -78,17 +89,17 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T>{
     * 查询所有记录
     * */
     @Override
-    public List<T> findAll() {
+    public List<T> findAll(String IDtype) {
         String className = clazz.getName();
-        String hql = "From "+className;
+        String hql = "From "+className+" x order by x."+IDtype+" asc";
         Query query = this.getCurrentSession().createQuery(hql);
         return query.list();
     }
 
     @Override
-    public List<T> findAllByPage(Integer start, Integer size) {
+    public List<T> findAllByPage(String IDtype, Integer start, Integer size) {
         String className = clazz.getName();
-        String hql = "From "+className;
+        String hql = "From "+className+" x order by x."+IDtype+" asc";
         Query query = this.getCurrentSession().createQuery(hql);
         query.setFirstResult(start).setMaxResults(size);
         return query.list();
@@ -150,7 +161,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T>{
     }
 
     @Override
-    public void delete(Long studentID) {
+    public void deleteRecord(Long studentID) {
         String className = clazz.getName();
         if (className != null && className != "") {
             String hql = "delete "+className+" where studentID = :studentID";
