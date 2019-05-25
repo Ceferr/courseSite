@@ -5,6 +5,7 @@ import com.courseSite.dao.AdminDao;
 import com.courseSite.dao.StudentDao;
 import com.courseSite.dao.TeacherDao;
 import com.courseSite.pojo.Student;
+import com.courseSite.pojo.Teacher;
 import com.courseSite.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,14 @@ public class LoginServiceImpl implements LoginService {
                         result.setOK("登陆成功",token);
                     }
                 }
+            }else if (userType.equals("teacher")){
+                Teacher teacher = teacherDaoImpl.getByTeacherID(ID);
+                if (teacher != null){
+                    String token = JwtUtil.sign(ID);
+                    if (token != null){
+                        result.setOK("登陆成功",token);
+                    }
+                }
             }
         }else {
             result.setFail(400,"登陆失败");
@@ -45,15 +54,16 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private boolean checkUser(String userType,Long ID,String password){
+        String testPassword = "";
         if (userType.equals("student")){
-            String testPassword = studentDaoImpl.getByStudentID(ID).getPassword();
-            if (password.equals(testPassword)){
-                return true;
-            }else {
-                return false;
-            }
+            testPassword = studentDaoImpl.getByStudentID(ID).getPassword();
+        }else if (userType.equals("teacher")){
+            testPassword = teacherDaoImpl.getByTeacherID(ID).getPassword();
+        }
+
+        if (password.equals(testPassword)){
+            return true;
         }else {
-            System.out.println("...");
             return false;
         }
     }

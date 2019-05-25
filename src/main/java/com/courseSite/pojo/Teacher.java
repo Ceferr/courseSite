@@ -16,8 +16,6 @@ public class Teacher {
     private String name;
     @Column(name = "password")
     private String password;
-    @Column(name = "intro")
-    private String intro;
     @Column(name = "sex")
     private String sex;
 
@@ -66,14 +64,6 @@ public class Teacher {
         this.password = password;
     }
 
-    public String getIntro() {
-        return intro;
-    }
-
-    public void setIntro(String intro) {
-        this.intro = intro;
-    }
-
     public String getSex() {
         return sex;
     }
@@ -89,8 +79,17 @@ public class Teacher {
                 ", teacherID=" + teacherID +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", intro='" + intro + '\'' +
                 ", sex='" + sex + '\'' +
                 '}';
+    }
+
+    public Teacher(Long teacherID, String name, String password, String sex) {
+        this.teacherID = teacherID;
+        this.name = name;
+        this.password = password;
+        this.sex = sex;
+    }
+
+    public Teacher() {
     }
 }
