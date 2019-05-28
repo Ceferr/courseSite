@@ -1,11 +1,9 @@
 package com.courseSite.service;
 
 import com.courseSite.ResponseResult.Result;
-import com.courseSite.pojo.Student;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.channels.MulticastChannel;
-import java.util.Map;
+import java.io.OutputStream;
 
 public interface StudentService {
     Result addStudent(Long studentID,String name,String password,String sex,Long teacherID);
@@ -23,4 +21,6 @@ public interface StudentService {
     Result updateInfo(Long studentID,String name,String sex);
 
     Result importFromExcel(MultipartFile file);
+
+    Result exportToExcel(Long teacherID, OutputStream outputStream);
 }

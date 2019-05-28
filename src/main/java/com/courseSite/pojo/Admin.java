@@ -10,8 +10,8 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "adminID")
+    private String adminID;
 
     @Column(name = "password")
     private String password;
@@ -24,12 +24,12 @@ public class Admin {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAdminID() {
+        return adminID;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAdminID(String adminID) {
+        this.adminID = adminID;
     }
 
     public String getPassword() {
@@ -38,5 +38,13 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Admin(String adminID, String password) {
+        this.adminID = adminID;
+        this.password = password;
+    }
+
+    public Admin() {
     }
 }

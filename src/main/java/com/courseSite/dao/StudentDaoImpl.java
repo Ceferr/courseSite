@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.courseSite.pojo.Student;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository("studentDaoImpl")
@@ -49,5 +50,14 @@ public class StudentDaoImpl extends BaseDaoImpl<Student> implements StudentDao{
         map.put("studentID",studentID);
         Query query = getQuery(hql,map);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Student> getAllStudentByTeacherID(Long teacherID) {
+        String hql = "From Student s where teacherID=:teacherID order by s.studentID asc";
+        Map map = new HashMap();
+        map.put("teacherID",teacherID);
+        Query query = getQuery(hql,map);
+        return query.list();
     }
 }

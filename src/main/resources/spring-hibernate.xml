@@ -58,15 +58,15 @@
 				<!--指定每次提交SQL的数量-->
 				<prop key="hibernate.jdbc.batch_size">50</prop>
 				<!-- 关闭二级缓存 ehcache-->
-				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<!--<prop key="hibernate.cache.use_second_level_cache">true</prop>-->
 
-				<!-- 开启二级缓存 ehcache
+				<!-- 开启二级缓存 ehcache -->
 				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
 				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
 				<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
 				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.cache.provider_configuration_file_resource_path}
 				</prop>
-				 -->
+
 			</props>
 		</property>
 		<!-- 扫描hibernate注解配置的entity -->

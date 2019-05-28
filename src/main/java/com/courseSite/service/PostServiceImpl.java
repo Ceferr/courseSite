@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -51,6 +52,7 @@ public class PostServiceImpl implements PostService {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowTime = simpleDateFormat.format(date);
+        System.out.println(nowTime);
         Date time = null;
         try {
             time = simpleDateFormat.parse(nowTime);
@@ -68,6 +70,14 @@ public class PostServiceImpl implements PostService {
         Post post = postDaoImpl.getOne(title,"title");
         postDaoImpl.delete(post.getId());
         result.setOK("删除成功",post);
+        return result;
+    }
+
+    @Override
+    public Result getPostByPage(Integer start, Integer size) {
+        result.clear();
+        List<Post> posts = postDaoImpl.findAllByPage("ask_time",start,size);
+        result.setOK("查询成功",posts);
         return result;
     }
 }

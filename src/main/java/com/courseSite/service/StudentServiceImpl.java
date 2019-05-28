@@ -7,9 +7,15 @@ import com.courseSite.pojo.Report;
 import com.courseSite.pojo.Student;
 import com.courseSite.pojo.Teacher;
 import com.courseSite.util.ReadExcel;
+import com.courseSite.util.WriteExcel;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -139,7 +145,7 @@ public class StudentServiceImpl implements StudentService {
     public Result updateInfo(Long studentID,String name, String sex) {
         result.clear();
         studentDaoImpl.updateInfo(studentID,name,sex);
-        result.setOK("信息修改成功",name+sex);
+        result.setOK("信息修改成功",name+" "+sex);
         return result;
     }
 
@@ -181,18 +187,29 @@ public class StudentServiceImpl implements StudentService {
         return result;
     }
 
-//    private List<Student> batchImport(String fileName, MultipartFile file){
-//        ReadExcel readExcel = new ReadExcel();
-//        List<Student> students = readExcel.getExcelInfo(fileName,file);
-//
-//        if (students!=null){
-//            for (Student student : students){
-//                System.out.println(student.toString());
-//                studentDaoImpl.save(student);
-//            }
-//        }
-//        return students;
-//    }
+    @Override
+    public Result exportToExcel(Long teacherID, OutputStream outputStream) {
+        result.clear();
+        List<String> title = new ArrayList<>();
+        title.add("学号");
+        title.add("姓名");
+        title.add("性别");
+        title.add("教师号");
 
+        List<Student> students = studentDaoImpl.getAllStudentByTeacherID(teacherID);
+        result.setOK("导出成功",students);
+        String sheetName = "学生表";
 
+        HSSFWorkbook workbook = WriteExcel.getWorkBook(sheetName,title,students);
+
+        try {
+            OutputStream os = outputStream;
+            workbook.write(os);
+            os.flush();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

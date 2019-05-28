@@ -113,6 +113,10 @@ public class PublishServiceImpl implements PublishService {
     public Result downloadPublish(Long fileID, String filename,OutputStream outputStream,String type,Long studentID) {
         result.clear();
         String path = null;
+        if (studentDaoImpl.getByStudentID(studentID)==null){
+            result.setFail(104,"该学生不存在");
+            return result;
+        }
         Long teacherID = studentDaoImpl.getByStudentID(studentID).getTeacherID();
         if (type.equals("courseware")){
             path = Constant.ROOT+teacherID+"/"+type;
@@ -132,6 +136,7 @@ public class PublishServiceImpl implements PublishService {
                 courseWareDaoImpl.updateDownloadCount(courseWare.getId(),downloadCount);
                 CourseWare_download courseWare_download = new CourseWare_download(storePath,studentID);
                 courseWare_downloadDaoImpl.save(courseWare_download);
+                result = Util.download(filename,path,outputStream);
             }
         }else {
             path = Constant.ROOT+teacherID+"/"+type+"/"+"第"+fileID+"次";
@@ -151,6 +156,7 @@ public class PublishServiceImpl implements PublishService {
                         homeWork_publishDaoImpl.updateDownloadCount(homeWork_publish.getId(),downloadCount);
                         HomeWork_publish_download homeWork_publish_download = new HomeWork_publish_download(storePath,studentID);
                         homeWork_publish_downloadDaoImpl.save(homeWork_publish_download);
+                        result = Util.download(filename,path,outputStream);
                     }
                 }else if (type.equals("report")){
                     Report_publish report_publish = report_publishDaoImpl.getByReportID(fileID);
@@ -167,10 +173,10 @@ public class PublishServiceImpl implements PublishService {
                         report_publishDaoImpl.updateDownloadCount(report_publish.getId(),downloadCount);
                         Report_publish_download report_publish_download = new Report_publish_download(storePath,studentID);
                         report_publish_downloadDaoImpl.save(report_publish_download);
+                        result = Util.download(filename,path,outputStream);
                     }
                 }
             }
-            result = Util.download(filename,path,outputStream);
         return result;
     }
 

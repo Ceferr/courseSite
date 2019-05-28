@@ -4,6 +4,7 @@ import com.courseSite.ResponseResult.Result;
 import com.courseSite.dao.AdminDao;
 import com.courseSite.dao.StudentDao;
 import com.courseSite.dao.TeacherDao;
+import com.courseSite.pojo.Admin;
 import com.courseSite.pojo.Student;
 import com.courseSite.pojo.Teacher;
 import com.courseSite.util.JwtUtil;
@@ -45,6 +46,14 @@ public class LoginServiceImpl implements LoginService {
                         result.setOK("登陆成功",token);
                     }
                 }
+            }else if (userType.equals("admin")){
+                Admin admin = adminDaoImpl.getByAdminID(ID);
+                if (admin!=null){
+                    String token = JwtUtil.sign(ID);
+                    if (token != null){
+                        result.setOK("登陆成功",token);
+                    }
+                }
             }
         }else {
             result.setFail(400,"登陆失败");
@@ -59,8 +68,9 @@ public class LoginServiceImpl implements LoginService {
             testPassword = studentDaoImpl.getByStudentID(ID).getPassword();
         }else if (userType.equals("teacher")){
             testPassword = teacherDaoImpl.getByTeacherID(ID).getPassword();
+        }else if (userType.equals("admin")){
+            testPassword = adminDaoImpl.getByAdminID(ID).getPassword();
         }
-
         if (password.equals(testPassword)){
             return true;
         }else {

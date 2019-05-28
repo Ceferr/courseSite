@@ -16,6 +16,14 @@ public class PostController {
     @Autowired
     private PostService postServiceImpl;
 
+    @RequestMapping(method = RequestMethod.GET,value = "/getPostByPage")
+    @ResponseBody
+    public Result getPostByPage(@RequestParam(value = "start")Integer start,
+                                @RequestParam(value = "size")Integer size){
+        Result result = postServiceImpl.getPostByPage(start, size);
+        return result;
+    }
+
     @RequestMapping(method = RequestMethod.POST,value = "/askPost")
     @ResponseBody
     public Result askPost(@RequestParam(value = "studentID")Long studentID,

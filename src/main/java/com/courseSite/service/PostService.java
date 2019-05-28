@@ -9,4 +9,6 @@ public interface PostService {
     Result replyPost(String title,Long teacherID,String content);
 
     Result deletePost(String title);
+
+    Result getPostByPage(Integer start,Integer size);
 }

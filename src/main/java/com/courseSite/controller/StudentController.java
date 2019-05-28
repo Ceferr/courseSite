@@ -8,6 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+
 
 @Controller
 @RequestMapping(value = "/student")
@@ -31,6 +36,18 @@ public class StudentController {
     @ResponseBody
     public Result importStudent(@RequestParam(value = "file")MultipartFile file){
         Result result = studentServiceImpl.importFromExcel(file);
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/exportStudent")
+    @ResponseBody
+    public Result exportStudent(@RequestParam(value = "teacherID")Long teacherID,
+                                HttpServletRequest request, HttpServletResponse response)throws IOException {
+        OutputStream outputStream = response.getOutputStream();
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-Disposition", "attachment; filename= " + teacherID+".xlsx");
+        Result result = studentServiceImpl.exportToExcel(teacherID,outputStream);
         return result;
     }
 

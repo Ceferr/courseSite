@@ -40,7 +40,7 @@ public class PublishController {
                            @RequestParam(value = "studentID")Long studentID,
                            HttpServletRequest request,HttpServletResponse response) throws IOException {
         OutputStream outputStream = response.getOutputStream();
-        response.setContentType("application/form-data");
+        response.setContentType("application/octet-stream");
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + filename);
         Result result = publishServiceImpl.downloadPublish(fileID,filename,outputStream,type,studentID);

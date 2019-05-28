@@ -1,5 +1,7 @@
 package com.courseSite.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,12 +17,14 @@ public class Post {
 
     private String ask_content;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date ask_time;
 
     private Long studentID;
 
     private String reply_content;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date reply_time;
 
     private Long teacherID;
