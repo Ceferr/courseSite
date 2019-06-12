@@ -213,7 +213,7 @@ public class PublishServiceImpl implements PublishService {
                 if (homeWork_publish_downloadDaoImpl.get(storePath,"path")!=null){
                     homeWork_publish_downloadDaoImpl.delete(storePath);
                 }
-                homeWork_publish_downloadDaoImpl.delete(storePath);
+                //homeWork_publish_downloadDaoImpl.delete(storePath);
                 homeWork_publishDaoImpl.delete(storePath);
             }else if (type.equals("report")){
                 List<Report> reports = reportDaoImpl.get(report_publishDaoImpl.get(storePath).getReportID(),"reportID");

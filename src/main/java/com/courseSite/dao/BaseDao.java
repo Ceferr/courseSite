@@ -27,6 +27,8 @@ public interface BaseDao <T>{
 
     List<T> findAllByPage(String IDtype,Integer start,Integer size);
 
+    List<T> findByPage(String IDtype,Long ID,Integer start,Integer size);
+
     void persist(T entity);
 
     Serializable save(T entity);

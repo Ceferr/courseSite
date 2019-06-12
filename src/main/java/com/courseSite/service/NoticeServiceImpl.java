@@ -50,7 +50,8 @@ public class NoticeServiceImpl implements NoticeService{
     public Result getNoticeByPage(Integer start, Integer size) {
         result.clear();
         List<Notice> notices = noticeDaoImpl.findAllByPage("time",start,size);
-        result.setOK("查询成功",notices);
+        Long count = noticeDaoImpl.getCount();
+        result.setOK(count.toString(),notices);
         return result;
     }
 

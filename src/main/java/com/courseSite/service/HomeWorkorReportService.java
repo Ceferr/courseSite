@@ -11,7 +11,7 @@ public interface HomeWorkorReportService {
 
     Result removefile(String filename,String path,String type);
 
-    //Result upload(MultipartFile[] files, String dirname);
+    Result getAllHomeWorkOrReportByPage(Long fileID,String type,Integer start, Integer size);
 
     Result download(Long fileID,String filename, String type,Long teacherID, OutputStream outputStream);
 }

@@ -76,8 +76,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public Result getPostByPage(Integer start, Integer size) {
         result.clear();
-        List<Post> posts = postDaoImpl.findAllByPage("ask_time",start,size);
-        result.setOK("查询成功",posts);
+        List<Post> posts = postDaoImpl.findPostByPage(start,size);
+        Long count = postDaoImpl.getCount();
+        result.setOK(count.toString(),posts);
         return result;
     }
 }

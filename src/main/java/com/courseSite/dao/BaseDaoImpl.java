@@ -106,6 +106,17 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T>{
     }
 
     @Override
+    public List<T> findByPage(String IDtype,Long ID, Integer start, Integer size) {
+        String className = clazz.getName();
+        String hql = "From "+className+" where "+IDtype+" = :"+IDtype+" order by studentID asc";
+        Map map = new HashMap();
+        map.put(IDtype,ID);
+        Query query = getQuery(hql,map);
+        query.setFirstResult(start).setMaxResults(size);
+        return query.list();
+    }
+
+    @Override
     public void persist(T entity) {
         getCurrentSession().persist(entity);
     }

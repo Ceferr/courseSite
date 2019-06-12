@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository("PostDaoImpl")
@@ -22,5 +23,13 @@ public class PostDaoImpl extends BaseDaoImpl<Post> implements PostDao{
         map.put("title",title);
         Query query = getQuery(hql,map);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Post> findPostByPage(Integer start, Integer size) {
+        String hql = "From Post x order by x.ask_time desc";
+        Query query = this.getCurrentSession().createQuery(hql);
+        query.setFirstResult(start).setMaxResults(size);
+        return query.list();
     }
 }

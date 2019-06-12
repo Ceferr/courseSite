@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
@@ -111,6 +113,28 @@ public class HomeWorkorReportServiceImpl implements HomeWorkorReportService{
         String path = Constant.ROOT+teacherID+"/"+type+"/"+"第"+fileID+"次";
         result = Util.download(filename,path,outputStream);
         System.out.println(result.getMessage());
+        return result;
+    }
+
+    @Override
+    public Result getAllHomeWorkOrReportByPage(Long fileID,String type, Integer start, Integer size) {
+        result.clear();
+        Long count = 0l;
+        List lists = new ArrayList();
+        if (type.equals("homework")){
+            List<HomeWork> homeWorks = homeWorkDaoImpl.findByPage("homeworkID",fileID,start,size);
+            for (HomeWork homeWork : homeWorks){
+                lists.add(homeWork);
+            }
+            count = homeWorkDaoImpl.getCount();
+        }else if (type.equals("report")){
+            List<Report> reports = reportDaoImpl.findByPage("reportID",fileID,start,size);
+            for (Report report: reports){
+                lists.add(report);
+            }
+            count = reportDaoImpl.getCount();
+        }
+        result.setOK(count.toString(),lists);
         return result;
     }
 }

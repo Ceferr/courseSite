@@ -20,7 +20,8 @@ public class QuizServiceImpl implements QuizService {
     public Result getAllQuiz() {
         result.clear();
         List<Quiz> quizzes = quizDaoImpl.findAll("quizID");
-        result.setOK("查询成功",quizzes);
+        Long count = quizDaoImpl.getCount();
+        result.setOK(count.toString(),quizzes);
         return result;
     }
 
@@ -28,7 +29,8 @@ public class QuizServiceImpl implements QuizService {
     public Result getAllQuizByPage(Integer start, Integer size) {
         result.clear();
         List<Quiz> quizzes = quizDaoImpl.findAllByPage("quizID",start,size);
-        result.setOK("查询成功",quizzes);
+        Long count = quizDaoImpl.getCount();
+        result.setOK(count.toString(),quizzes);
         return result;
     }
 

@@ -21,13 +21,6 @@ public class HomeWorkorReportController {
     @Autowired
     private HomeWorkorReportService homeWorkServiceImpl;
 
-//    //创建文件夹
-//    @RequestMapping(method = RequestMethod.POST,value = "/mkdir")
-//    @ResponseBody
-//    public Result makedir(@RequestParam(value = "path")String path){
-//        Result result = homeWorkServiceImpl.makedir(path);
-//        return result;
-//    }
 
     //删除文件
     @RequestMapping(method = RequestMethod.POST,value = "/rmfile")
@@ -65,6 +58,17 @@ public class HomeWorkorReportController {
         response.setCharacterEncoding("utf-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + filename);
         Result result = homeWorkServiceImpl.download(fileID,filename,type,teacherID,outputStream);
+        return result;
+    }
+
+    //分页查询上交的作业或实践报告
+    @RequestMapping(method = RequestMethod.GET,value = "/getHomeWorkOrReportByPage")
+    @ResponseBody
+    public Result getHomeWorkOrReportByPage(@RequestParam(value = "fileID") Long fileID,
+                                            @RequestParam(value = "type") String type,
+                                            @RequestParam(value = "start")Integer start,
+                                            @RequestParam(value = "size")Integer size){
+        Result result = homeWorkServiceImpl.getAllHomeWorkOrReportByPage(fileID,type, start, size);
         return result;
     }
 
