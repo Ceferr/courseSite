@@ -40,7 +40,6 @@ public class DownloadRecordServiceImpl implements DownloadRecordService{
                 case "homework":{
                     System.out.println("开始查询");
                     List<HomeWork_publish_download> lists = homeWork_publish_downloadDaoImpl.get(studentID,"studentID");
-                    System.out.println("查询结果为"+lists.get(0).getPath());
                     for (HomeWork_publish_download record : lists){
                         System.out.println(record.getPath());
                         records.add(record.getPath());
